@@ -32,6 +32,19 @@ rockImg.src = 'https://pngimg.com/d/stone_PNG13588.png';
 
 const retryButton = document.getElementById('retryButton');
 
+// Function to adjust brightness and contrast of an image
+function adjustImageBrightnessContrast(image, brightness = 1.5, contrast = 1.5) {
+    const offScreenCanvas = document.createElement('canvas');
+    const offScreenCtx = offScreenCanvas.getContext('2d');
+    offScreenCanvas.width = image.width;
+    offScreenCanvas.height = image.height;
+
+    offScreenCtx.filter = `brightness(${brightness}) contrast(${contrast})`;
+    offScreenCtx.drawImage(image, 0, 0, image.width, image.height);
+
+    return offScreenCanvas;
+}
+
 // Function to draw the background
 function drawBackground() {
     ctx.drawImage(backgroundImg, 0, backgroundY, canvas.width, canvas.height);
@@ -43,10 +56,11 @@ function drawBackground() {
 
 // Function to draw the climber
 function drawClimber() {
+    const adjustedClimberImg = adjustImageBrightnessContrast(climberImg);
     if (climber.hitEffect) {
         ctx.globalAlpha = 0.5;
     }
-    ctx.drawImage(climberImg, climber.x, climber.y, climber.width, climber.height);
+    ctx.drawImage(adjustedClimberImg, climber.x, climber.y, climber.width, climber.height);
     ctx.globalAlpha = 1.0;
 }
 
@@ -150,7 +164,7 @@ function drawLives() {
 function drawMeters() {
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
-    ctx.fillText(`Meters: ${meters}`, canvas.width - 100, 30);  // Position meters counter on the right
+    ctx.fillText(`Meters: ${meters}`, canvas.width - 125, 30);  // Position meters counter slightly more to the left
 }
 
 // Function to handle touch events for moving the climber
