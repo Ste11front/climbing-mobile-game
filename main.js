@@ -30,6 +30,12 @@ climberImg.src = 'https://static.vecteezy.com/system/resources/thumbnails/026/99
 const rockImg = new Image();
 rockImg.src = 'https://pngimg.com/d/stone_PNG13588.png';
 
+const lifeImg = new Image();
+lifeImg.src = 'https://i.pinimg.com/originals/d7/12/f5/d712f5d82e60ffaed78e8015dd75787c.png';
+
+const circleImg = new Image();
+circleImg.src = 'https://cdn-icons-png.flaticon.com/512/2717/2717414.png';
+
 const retryButton = document.getElementById('retryButton');
 
 // Function to adjust brightness and contrast of an image
@@ -89,11 +95,7 @@ function createRock() {
 // Function to draw circles
 function drawCircles() {
     circles.forEach(circle => {
-        ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'blue';
-        ctx.fill();
-        ctx.closePath();
+        ctx.drawImage(circleImg, circle.x - circle.radius, circle.y - circle.radius, circle.radius * 2, circle.radius * 2);
     });
 }
 
@@ -152,11 +154,7 @@ function updateGame() {
 // Function to draw the lives
 function drawLives() {
     for (let i = 0; i < climber.lives; i++) {
-        ctx.fillStyle = 'red';
-        ctx.beginPath();
-        ctx.arc(20 + i * 30, 20, 10, 0, Math.PI * 2);  // Position lives on the left
-        ctx.fill();
-        ctx.closePath();
+        ctx.drawImage(lifeImg, 20 + i * 30, 10, 20, 20);  // Position lives on the left
     }
 }
 
@@ -185,7 +183,7 @@ canvas.addEventListener('touchstart', function(event) {
     }
 
     circles.forEach((circle, index) => {
-        let touchYOffset = 50;  // Adjust this value as needed
+        let touchYOffset = 30;  // Adjusted value for lower detection
         if (touch.clientX >= circle.x - circle.radius && touch.clientX <= circle.x + circle.radius &&
             touch.clientY - touchYOffset >= circle.y - circle.radius && touch.clientY - touchYOffset <= circle.y + circle.radius) {
             backgroundY += 10;  // Move the background down slower
