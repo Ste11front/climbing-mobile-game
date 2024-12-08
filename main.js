@@ -185,8 +185,9 @@ canvas.addEventListener('touchstart', function(event) {
     }
 
     circles.forEach((circle, index) => {
+        let touchYOffset = 10;  // Adjust this value as needed
         if (touch.clientX >= circle.x - circle.radius && touch.clientX <= circle.x + circle.radius &&
-            touch.clientY >= circle.y - circle.radius && touch.clientY <= circle.y + circle.radius) {
+            touch.clientY - touchYOffset >= circle.y - circle.radius && touch.clientY - touchYOffset <= circle.y + circle.radius) {
             backgroundY += 10;  // Move the background down slower
             meters += 1; // Increment meters counter when clicking on a circle
             circles.splice(index, 1);  // Remove the circle
