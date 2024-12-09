@@ -39,7 +39,7 @@ circleImg.src = 'https://cdn-icons-png.flaticon.com/512/2717/2717414.png';
 const retryButton = document.getElementById('retryButton');
 
 // Function to adjust brightness and contrast of an image
-function adjustImageBrightnessContrast(image, brightness = 1.5, contrast = 1.5) {
+function adjustImageBrightnessContrast(image, brightness = 1, contrast = 2) {
     const offScreenCanvas = document.createElement('canvas');
     const offScreenCtx = offScreenCanvas.getContext('2d');
     offScreenCanvas.width = image.width;
