@@ -216,18 +216,9 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-const images = [backgroundImg, climberImg, rockImg, lifeImg, circleImg];
-
-Promise.all(images.map(img => {
-    return new Promise((resolve) => {
-        img.onload = resolve;
-    });
-})).then(() => {
-    // Inizia il gioco qui dopo che tutte le immagini sono state caricate
-    // Initialize game
-    createCircle();
-    createRock();
-    gameLoop();
-    setInterval(createCircle, 1000); // Create a new circle every second
-    setInterval(createRock, 3000); // Create a new rock every 3 seconds
-});
+// Initialize game
+createCircle();
+createRock();
+gameLoop();
+setInterval(createCircle, 1000); // Create a new circle every second
+setInterval(createRock, 3000); // Create a new rock every 3 seconds
