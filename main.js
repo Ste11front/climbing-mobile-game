@@ -27,6 +27,19 @@ backgroundImg.src = 'https://image.thecrag.com/213x320/cb/ed/cbedef6d7a8f43a9e25
 const climberImg = new Image();
 climberImg.src = 'https://static.vecteezy.com/system/resources/thumbnails/026/990/676/small/one-single-line-drawing-of-young-active-man-climbing-on-cliff-mountain-holding-safety-rope-graphic-illustration-extreme-outdoor-sport-and-bouldering-concept-modern-continuous-line-draw-design-png.png';
 
+// Assicurati che l'immagine del climber sia caricata prima di iniziare il gioco
+climberImg.onload = function() {
+    startGame();
+};
+
+function startGame() {
+    createCircle();
+    createRock();
+    gameLoop();
+    setInterval(createCircle, 1000); // Crea un nuovo cerchio ogni secondo
+    setInterval(createRock, 3000); // Crea una nuova roccia ogni 3 secondi
+}
+
 const rockImg = new Image();
 rockImg.src = 'https://pngimg.com/d/stone_PNG13588.png';
 
@@ -36,9 +49,13 @@ lifeImg.src = 'https://i.pinimg.com/originals/d7/12/f5/d712f5d82e60ffaed78e8015d
 const circleImg = new Image();
 circleImg.src = 'https://cdn-icons-png.flaticon.com/512/2717/2717414.png';
 
+const leftArrow = '←';
+const rightArrow = '→';
+const centerDot = '•';
+
 const retryButton = document.getElementById('retryButton');
 
-// Function to adjust brightness and contrast of an image
+// Funzione per regolare la luminosità e il contrasto di un'immagine
 function adjustImageBrightnessContrast(image, brightness = 1, contrast = 2) {
     const offScreenCanvas = document.createElement('canvas');
     const offScreenCtx = offScreenCanvas.getContext('2d');
@@ -51,7 +68,6 @@ function adjustImageBrightnessContrast(image, brightness = 1, contrast = 2) {
     return offScreenCanvas;
 }
 
-// Function to draw the background
 function drawBackground() {
     ctx.drawImage(backgroundImg, 0, backgroundY, canvas.width, canvas.height);
     ctx.drawImage(backgroundImg, 0, backgroundY - canvas.height, canvas.width, canvas.height);
@@ -60,7 +76,6 @@ function drawBackground() {
     }
 }
 
-// Function to draw the climber
 function drawClimber() {
     const adjustedClimberImg = adjustImageBrightnessContrast(climberImg);
     if (climber.hitEffect) {
@@ -70,7 +85,6 @@ function drawClimber() {
     ctx.globalAlpha = 1.0;
 }
 
-// Function to create a new circle
 function createCircle() {
     let radius = 20;
     let x = Math.random() * (canvas.width - 2 * radius) + radius;
@@ -78,7 +92,6 @@ function createCircle() {
     circles.push({ x, y, radius, timestamp: Date.now() });
 }
 
-// Function to create a new rock
 function createRock() {
     let width = 50;
     let height = 50;
@@ -92,47 +105,58 @@ function createRock() {
     rocks.push({ x, y, width, height });
 }
 
-// Function to draw circles
 function drawCircles() {
     circles.forEach(circle => {
         ctx.drawImage(circleImg, circle.x - circle.radius, circle.y - circle.radius, circle.radius * 2, circle.radius * 2);
     });
 }
 
-// Function to draw rocks
 function drawRocks() {
     rocks.forEach(rock => {
         ctx.drawImage(rockImg, rock.x, rock.y, rock.width, rock.height);
-        rock.y += 2; // Speed of falling rocks
+        rock.y += 2; // Velocità di caduta delle rocce
     });
 }
 
-// Function to update the game state
+function drawArrows() {
+    const arrowSize = 30;
+    ctx.font = `${arrowSize}px Arial`;
+    ctx.fillStyle = 'white';
+    
+    const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
+
+    if (climber.position !== 'left') {
+        ctx.fillText(leftArrow, 50, arrowY);
+    }
+    if (climber.position !== 'right') {
+        ctx.fillText(rightArrow, canvas.width - 70, arrowY);
+    }
+    if (climber.position !== 'center') {
+        ctx.fillText(centerDot, canvas.width / 2 - 10, arrowY);
+    }
+}
+
 function updateGame() {
     if (gamePaused) return;
 
     const now = Date.now();
 
-    // Update circles
     circles = circles.filter(circle => {
-        if (now - circle.timestamp > 3000) return false;  // Remove circles after 3 seconds
+        if (now - circle.timestamp > 3000) return false;
 
-        // Check if the climber hits a circle
         if (circle.y + circle.radius >= climber.y && circle.y - circle.radius <= climber.y + climber.height &&
             circle.x + circle.radius >= climber.x && circle.x - circle.radius <= climber.x + climber.width) {
             score += 10;
-            meters += 1;  // Increase the meters counter
-            backgroundY += 10;  // Move the background down slower
+            meters += 1;
+            backgroundY += 10;
             return false;
         }
         return true;
     });
 
-    // Update rocks
     rocks = rocks.filter(rock => {
-        if (rock.y > canvas.height) return false; // Remove rocks off the screen
+        if (rock.y > canvas.height) return false;
 
-        // Check if the climber hits a rock
         if (rock.y + rock.height >= climber.y && rock.y <= climber.y + climber.height &&
             rock.x + rock.width >= climber.x && rock.x <= climber.x + climber.width) {
             climber.lives -= 1;
@@ -141,9 +165,9 @@ function updateGame() {
             setTimeout(() => {
                 climber.invincible = false;
                 climber.hitEffect = false;
-            }, 1000);  // 1 second of invincibility and hit effect
+            }, 1000);
             if (climber.lives <= 0) {
-                showRetryButton();  // Show retry button on game over
+                showRetryButton();
             }
             return false;
         }
@@ -151,55 +175,67 @@ function updateGame() {
     });
 }
 
-// Function to draw the lives
 function drawLives() {
     for (let i = 0; i < climber.lives; i++) {
-        ctx.drawImage(lifeImg, 20 + i * 30, 10, 20, 20);  // Position lives on the left
+        ctx.drawImage(lifeImg, 20 + i * 30, 10, 20, 20);
     }
 }
 
-// Function to draw the meters counter
 function drawMeters() {
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
-    ctx.fillText(`Meters: ${meters}`, canvas.width - 125, 30);  // Position meters counter slightly more to the left
+    ctx.fillText(`Meters: ${meters}`, canvas.width - 125, 30);
 }
 
-// Function to handle touch events for moving the climber
 canvas.addEventListener('touchstart', function(event) {
     const touch = event.touches[0];
 
     if (touch.clientY >= climber.y) {
-        if (touch.clientX < canvas.width / 3) {
-            climber.position = 'left';
-            climber.x = canvas.width / 6 - climber.width / 2;
-        } else if (touch.clientX > 2 * canvas.width / 3) {
-            climber.position = 'right';
-            climber.x = 5 * canvas.width / 6 - climber.width / 2;
-        } else {
-            climber.position = 'center';
-            climber.x = canvas.width / 2 - climber.width / 2;
+        if (climber.position === 'center') {
+            if (touch.clientX < canvas.width / 3) {
+                climber.position = 'left';
+                climber.x = canvas.width / 6 - climber.width / 2;
+            } else if (touch.clientX > 2 * canvas.width / 3) {
+                climber.position = 'right';
+                climber.x = 5 * canvas.width / 6 - climber.width / 2;
+            }
+        } else if (climber.position === 'left') {
+            if (touch.clientX > 2 * canvas.width / 3) {
+                climber.position = 'center';
+                climber.x = canvas.width / 2 - climber.width / 2;
+            } else if (touch.clientX >= canvas.width / 3 && touch.clientX <= 2 * canvas.width / 3) {
+                climber.position = 'center';
+                climber.x = canvas.width / 2 - climber.width / 2;
+            }
+        } else if (climber.position === 'right') {
+            if (touch.clientX < canvas.width / 3) {
+                climber.position = 'center';
+                climber.x = canvas.width / 2 - climber.width / 2;
+            } else if (touch.clientX >= canvas.width / 3 && touch.clientX <= 2 * canvas.width / 3) {
+                climber.position = 'center';
+                climber.x = canvas.width / 2 - climber.width / 2;
+            }
         }
     }
 
     circles.forEach((circle, index) => {
-        let touchYOffset = 30;  // Adjusted value for lower detection
+        let touchYOffset = 30;
         if (touch.clientX >= circle.x - circle.radius && touch.clientX <= circle.x + circle.radius &&
             touch.clientY - touchYOffset >= circle.y - circle.radius && touch.clientY - touchYOffset <= circle.y + circle.radius) {
-            backgroundY += 10;  // Move the background down slower
-            meters += 1; // Increment meters counter when clicking on a circle
-            circles.splice(index, 1);  // Remove the circle
+            backgroundY += 10;
+            meters += 1;
+            circles.splice(index, 1);
         }
     });
 });
 
 function showRetryButton() {
     retryButton.style.display = 'block';
-    gamePaused = true; // Pause the game
+    gamePaused = true;
 }
 
 retryButton.addEventListener('click', function() {
-    document.location.reload();  // Reload the game on retry
+    document.location.reload();
 });
 
 function gameLoop() {
@@ -210,15 +246,9 @@ function gameLoop() {
         drawCircles();
         drawRocks();
         drawLives();
-        drawMeters();  // Draw the meters counter
+        drawMeters();
+        drawArrows(); // Disegna le frecce
         updateGame();
     }
     requestAnimationFrame(gameLoop);
 }
-
-// Initialize game
-createCircle();
-createRock();
-gameLoop();
-setInterval(createCircle, 1000); // Create a new circle every second
-setInterval(createRock, 3000); // Create a new rock every 3 seconds
