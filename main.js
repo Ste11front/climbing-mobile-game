@@ -121,18 +121,18 @@ function drawRocks() {
 function drawArrows() {
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';  // Colore bianco con trasparenza
-
+    ctx.fillStyle = 'rgb(255, 255, 255)'; // Colore bianco con meno trasparenza
+    
     const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
     if (climber.position !== 'left') {
-        ctx.fillText(leftArrow, 50, arrowY);
+        ctx.fillText(leftArrow, 40, arrowY);
     }
     if (climber.position !== 'right') {
-        ctx.fillText(rightArrow, canvas.width - 70, arrowY);
+        ctx.fillText(rightArrow, canvas.width - 90, arrowY);
     }
     if (climber.position !== 'center') {
-        ctx.fillText(centerDot, canvas.width / 2 - 10, arrowY);
+        ctx.fillText(centerDot, canvas.width / 2 - 20, arrowY);
     }
 }
 
