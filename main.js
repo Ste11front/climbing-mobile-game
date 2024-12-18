@@ -119,10 +119,10 @@ function drawRocks() {
 }
 
 function drawArrows() {
-    const arrowSize = 30;
+    const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'white';
-    
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';  // Colore bianco con trasparenza
+
     const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
     if (climber.position !== 'left') {
