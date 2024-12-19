@@ -3,6 +3,14 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Eventuali aggiustamenti necessari al ridimensionamento degli elementi di gioco
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();  // Chiamata iniziale per impostare la dimensione
+
 let climber = {
     x: canvas.width / 2 - 25,
     y: canvas.height - canvas.height / 4,
