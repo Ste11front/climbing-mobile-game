@@ -3,11 +3,18 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+canvas.addEventListener('touchstart', function(event) {
+    event.preventDefault(); // Aggiungi questa riga per prevenire il comportamento di default del tocco
+    const touch = event.touches[0];
+    // Il resto del tuo codice
+});
+
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     // Eventuali aggiustamenti necessari al ridimensionamento degli elementi di gioco
 }
+
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();  // Chiamata iniziale per impostare la dimensione
 
