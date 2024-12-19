@@ -184,7 +184,7 @@ function drawLives() {
 function drawMeters() {
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
-    ctx.fillText(`Metri: ${meters}`, canvas.width - 125, 30);
+    ctx.fillText(`Metri: ${meters}`, canvas.width - 100, 30);
 }
 
 canvas.addEventListener('touchstart', function(event) {
