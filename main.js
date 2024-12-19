@@ -154,25 +154,42 @@ function updateGame() {
         return true;
     });
 
+    let impactOccurred = false;
+
     rocks = rocks.filter(rock => {
         if (rock.y > canvas.height) return false;
 
         if (rock.y + rock.height >= climber.y && rock.y <= climber.y + climber.height &&
             rock.x + rock.width >= climber.x && rock.x <= climber.x + climber.width) {
-            climber.lives -= 1;
-            climber.invincible = true;
-            climber.hitEffect = true;
-            setTimeout(() => {
-                climber.invincible = false;
-                climber.hitEffect = false;
-            }, 1000);
-            if (climber.lives <= 0) {
-                showRetryButton();
+            if (!climber.invincible) {
+                climber.lives -= 1;
+                climber.invincible = true;
+                climber.hitEffect = true;
+                impactOccurred = true;
+
+                setTimeout(() => {
+                    climber.invincible = false;
+                    climber.hitEffect = false;
+                }, 1000);
+
+                if (climber.lives <= 0) {
+                    // Non fermiamo ancora il gioco qui per far vedere la perdita di vita
+                    impactOccurred = true;
+                }
             }
             return false;
         }
         return true;
     });
+
+    if (impactOccurred) {
+        if (climber.lives <= 0) {
+            // Imposta un breve timeout per permettere di vedere l'effetto colpo prima del game over
+            setTimeout(() => {
+                showRetryButton();
+            }, 50); // Regola questo valore per migliorare la fluidità dell'effetto
+        }
+    }
 }
 
 function drawLives() {
