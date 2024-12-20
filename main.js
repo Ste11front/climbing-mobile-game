@@ -15,6 +15,12 @@ function resizeCanvas() {
     // Eventuali aggiustamenti necessari al ridimensionamento degli elementi di gioco
 }
 
+function vibrate(duration) {
+    if (navigator.vibrate) {
+        navigator.vibrate(duration);
+    }
+}
+
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();  // Chiamata iniziale per impostare la dimensione
 
@@ -173,7 +179,7 @@ function updateGame() {
 
     rocks = rocks.filter(rock => {
         if (rock.y > canvas.height) return false;
-
+    
         if (rock.y + rock.height >= climber.y && rock.y <= climber.y + climber.height &&
             rock.x + rock.width >= climber.x && rock.x <= climber.x + climber.width) {
             if (!climber.invincible) {
@@ -181,12 +187,14 @@ function updateGame() {
                 climber.invincible = true;
                 climber.hitEffect = true;
                 impactOccurred = true;
-
+    
+                vibrate(200); // Attiva la vibrazione per 200ms
+    
                 setTimeout(() => {
                     climber.invincible = false;
                     climber.hitEffect = false;
                 }, 1000);
-
+    
                 if (climber.lives <= 0) {
                     // Non fermiamo ancora il gioco qui per far vedere la perdita di vita
                     impactOccurred = true;
@@ -195,7 +203,7 @@ function updateGame() {
             return false;
         }
         return true;
-    });
+    });    
 
     if (impactOccurred) {
         if (climber.lives <= 0) {
