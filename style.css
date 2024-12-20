@@ -14,76 +14,19 @@ canvas {
     height: 100vh; /* Adattamento reattivo */
 }
 
-#retryButton {
+button {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-size: 20px;
-    background-color: #ff5722; /* Colore arancione */
-    color: white;
+    padding: 2vh 4vw; /* Adattamento reattivo */
+    font-size: 3vh; /* Adattamento reattivo */
+    background-color: #f00;
+    color: #fff;
     border: none;
-    border-radius: 10px; /* Angoli arrotondati */
     cursor: pointer;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.3); /* Effetto ombra */
-    transition: background-color 0.3s ease; /* Animazione su hover */
 }
 
-#retryButton:hover {
-    background-color: #e64a19; /* Cambia colore al passaggio del mouse */
-}
-
-#retryButton:focus {
+button:focus {
     outline: none;
-}
-
-#meters {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: wheat; /* Verde acceso per maggiore visibilità */
-    text-shadow: 2px 2px 5px #000; /* Effetto ombra per maggiore leggibilità */
-}
-
-/* Stile per le frecce e il pallino */
-.arrows {
-    font-size: 50px; /* Mantieni le dimensioni originali */
-    font-weight: bold;
-    color: wheat; /* Verde acceso per maggiore visibilità */
-    text-shadow: 2px 2px 5px #000; /* Effetto ombra per maggiore leggibilità */
-    position: absolute;
-}
-
-#leftArrow {
-    left: 40px;
-    bottom: 50px;
-}
-
-#rightArrow {
-    right: 40px;
-    bottom: 50px;
-}
-
-#centerDot {
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 50px;
-}
-
-/* Controlli suono e vibrazione */
-#controls {
-    position: absolute;
-    top: 10px; /* Posizionare sotto i cuori */
-    left: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-#controls span {
-    font-size: 20px;
-    cursor: pointer;
-    color: white; /* Colore bianco per visibilità */
 }

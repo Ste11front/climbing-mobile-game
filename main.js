@@ -138,13 +138,21 @@ function drawRocks() {
 }
 
 function drawArrows() {
-    const leftArrow = document.getElementById('leftArrow');
-    const centerDot = document.getElementById('centerDot');
-    const rightArrow = document.getElementById('rightArrow');
+    const arrowSize = 50;  // Dimensione maggiore degli indicatori
+    ctx.font = `${arrowSize}px Arial`;
+    ctx.fillStyle = 'wheat';
+    
+    const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
-    leftArrow.style.display = climber.position !== 'left' ? 'block' : 'none';
-    centerDot.style.display = climber.position !== 'center' ? 'block' : 'none';
-    rightArrow.style.display = climber.position !== 'right' ? 'block' : 'none';
+    if (climber.position !== 'left') {
+        ctx.fillText(leftArrow, 40, arrowY);
+    }
+    if (climber.position !== 'right') {
+        ctx.fillText(rightArrow, canvas.width - 90, arrowY);
+    }
+    if (climber.position !== 'center') {
+        ctx.fillText(centerDot, canvas.width / 2 - 20, arrowY);
+    }
 }
 
 function updateGame() {
@@ -212,8 +220,9 @@ function drawLives() {
 }
 
 function drawMeters() {
-    const metersElement = document.getElementById('meters');
-    metersElement.textContent = `Metri: ${meters}`;
+    ctx.fillStyle = 'wheat';
+    ctx.font = '20px Arial';
+    ctx.fillText(`Metri: ${meters}`, canvas.width - 100, 30);
 }
 
 canvas.addEventListener('touchstart', function(event) {
