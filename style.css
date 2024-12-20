@@ -44,7 +44,7 @@ canvas {
     right: 10px;
     font-size: 24px;
     font-weight: bold;
-    color: #00FF00; /* Verde acceso per maggiore visibilità */
+    color: wheat; /* Verde acceso per maggiore visibilità */
     text-shadow: 2px 2px 5px #000; /* Effetto ombra per maggiore leggibilità */
 }
 
@@ -52,7 +52,7 @@ canvas {
 .arrows {
     font-size: 50px; /* Mantieni le dimensioni originali */
     font-weight: bold;
-    color: #00FF00; /* Verde acceso per maggiore visibilità */
+    color: wheat; /* Verde acceso per maggiore visibilità */
     text-shadow: 2px 2px 5px #000; /* Effetto ombra per maggiore leggibilità */
     position: absolute;
 }
