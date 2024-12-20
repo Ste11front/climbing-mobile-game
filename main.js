@@ -3,26 +3,24 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-canvas.addEventListener('touchstart', function(event) {
-    event.preventDefault(); // Aggiungi questa riga per prevenire il comportamento di default del tocco
-    const touch = event.touches[0];
-    // Il resto del tuo codice
-});
-
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     // Eventuali aggiustamenti necessari al ridimensionamento degli elementi di gioco
 }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();  // Chiamata iniziale per impostare la dimensione
+
+canvas.addEventListener('touchstart', function(event) {
+    event.preventDefault(); // Aggiungi questa riga per prevenire il comportamento di default del tocco
+    const touch = event.touches[0];
+});
 
 function vibrate(duration) {
     if (navigator.vibrate) {
         navigator.vibrate(duration);
     }
 }
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();  // Chiamata iniziale per impostare la dimensione
 
 let climber = {
     x: canvas.width / 2 - 25,
@@ -140,21 +138,13 @@ function drawRocks() {
 }
 
 function drawArrows() {
-    const arrowSize = 50;  // Dimensione maggiore degli indicatori
-    ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'rgb(255, 255, 255)'; // Colore bianco con meno trasparenza
-    
-    const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
+    const leftArrow = document.getElementById('leftArrow');
+    const centerDot = document.getElementById('centerDot');
+    const rightArrow = document.getElementById('rightArrow');
 
-    if (climber.position !== 'left') {
-        ctx.fillText(leftArrow, 40, arrowY);
-    }
-    if (climber.position !== 'right') {
-        ctx.fillText(rightArrow, canvas.width - 90, arrowY);
-    }
-    if (climber.position !== 'center') {
-        ctx.fillText(centerDot, canvas.width / 2 - 20, arrowY);
-    }
+    leftArrow.style.display = climber.position !== 'left' ? 'block' : 'none';
+    centerDot.style.display = climber.position !== 'center' ? 'block' : 'none';
+    rightArrow.style.display = climber.position !== 'right' ? 'block' : 'none';
 }
 
 function updateGame() {
@@ -222,9 +212,8 @@ function drawLives() {
 }
 
 function drawMeters() {
-    ctx.fillStyle = 'white';
-    ctx.font = '20px Arial';
-    ctx.fillText(`Metri: ${meters}`, canvas.width - 100, 30);
+    const metersElement = document.getElementById('meters');
+    metersElement.textContent = `Metri: ${meters}`;
 }
 
 canvas.addEventListener('touchstart', function(event) {
