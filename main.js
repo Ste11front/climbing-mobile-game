@@ -140,7 +140,7 @@ function drawRocks() {
 function drawArrows() {
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'wheat';
+    ctx.fillStyle = 'gold';
     
     const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
@@ -220,7 +220,7 @@ function drawLives() {
 }
 
 function drawMeters() {
-    ctx.fillStyle = 'wheat';
+    ctx.fillStyle = 'gold';
     ctx.font = '20px Arial';
     ctx.fillText(`Metri: ${meters}`, canvas.width - 100, 30);
 }
