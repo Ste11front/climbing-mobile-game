@@ -29,7 +29,7 @@ let climber = {
     width: 60,
     height: 60,
     speed: 3,
-    lives: 3,
+    lives: 4,
     position: 'center',
     invincible: false,
     hitEffect: false,
