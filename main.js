@@ -29,7 +29,7 @@ let climber = {
     width: 60,
     height: 60,
     speed: 3,
-    lives: 4,
+    lives: 3,
     position: 'center',
     invincible: false,
     hitEffect: false,
@@ -190,7 +190,7 @@ function drawArrows() {
         ctx.fillText(rightArrow, canvas.width - 90, arrowY);
     }
     if (climber.position !== 'center') {
-        ctx.fillText(centerDot, canvas.width / 2 - 20, arrowY);
+        ctx.fillText(centerDot, canvas.width / 2 - 30, arrowY);
     }
     ctx.restore(); // Ripristina lo stato del contesto grafico
 }
