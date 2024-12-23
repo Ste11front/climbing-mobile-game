@@ -22,7 +22,8 @@ button {
     padding: 2vh 4vw;
     font-size: 3vh;
     font-weight: bold;
-    background-color: #ff6347; /* Colore rosso arancio */
+    /* background-color: #ff6347; Colore rosso arancio */
+    background-color: #477bff; /* Colore rosso arancio */
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -38,4 +39,5 @@ button:focus {
 button:active {
     transform: translate(-50%, -50%) scale(1.05); /* Effetto attivo */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    outline: none;
 }
