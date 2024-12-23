@@ -22,8 +22,7 @@ button {
     padding: 2vh 4vw;
     font-size: 3vh;
     font-weight: bold;
-    /* background-color: #ff6347; Colore rosso arancio */
-    background-color: #477bff; /* Colore rosso arancio */
+    background-color: #ff6347; /* Colore rosso arancio */
     color: #fff;
     border: none;
     border-radius: 12px;
