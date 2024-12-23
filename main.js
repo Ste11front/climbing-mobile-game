@@ -159,7 +159,7 @@ function drawArrows() {
     ctx.save(); // Salva lo stato del contesto grafico
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'gold';
+    ctx.fillStyle = 'wheat';
     ctx.shadowColor = 'black'; // Colore dell'ombra
     ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
     ctx.shadowOffsetY = 2; // Offset ombra verticale
@@ -251,7 +251,7 @@ function drawLives() {
 
 function drawMeters() {
     ctx.save(); // Salva lo stato del contesto grafico
-    ctx.fillStyle = 'gold';
+    ctx.fillStyle = 'wheat';
     ctx.font = 'bold 20px Arial';
     ctx.shadowColor = 'black'; // Colore dell'ombra
     ctx.shadowOffsetX = 2; // Offset ombra orizzontale
