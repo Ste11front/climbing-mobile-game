@@ -264,7 +264,7 @@ function drawMeters() {
 
     // Calcola la posizione x basata sul numero di cifre
     const extraSpace = 10 * (text.length - 7); // "Metri: " è fisso e ha 7 caratteri
-    let xPosition = canvas.width - 70 - extraSpace; // Distanza dal bordo destro
+    let xPosition = canvas.width - 80 - extraSpace; // Distanza dal bordo destro
 
     ctx.fillText(text, xPosition, 30); // Distanza dal bordo superiore
     ctx.restore(); // Ripristina lo stato del contesto grafico
