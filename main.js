@@ -175,7 +175,7 @@ function drawArrows() {
     ctx.save(); // Salva lo stato del contesto grafico
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'wheat';
+    ctx.fillStyle = 'white';
     ctx.shadowColor = 'black';
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 2;
@@ -267,7 +267,7 @@ function drawLives() {
 
 function drawMeters() {
     ctx.save(); // Salva lo stato del contesto grafico
-    ctx.fillStyle = 'wheat';
+    ctx.fillStyle = 'white';
     ctx.font = 'bold 20px Arial';
     ctx.shadowColor = 'black';
     ctx.shadowOffsetX = 2;
