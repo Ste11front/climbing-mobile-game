@@ -2,39 +2,20 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- Aggiunto il meta tag viewport -->
     <title>Climb the Mountain</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/6381/6381773.png" type="image/x-icon">
+    <!-- Open Graph Meta Tags (used by WhatsApp) --> 
     <meta property="og:title" content="Climb the Mountain">
     <meta property="og:description" content="Gioca al browser game su mobile!">
     <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/6381/6381773.png">
     <meta property="og:url" content="https://ste11front.github.io/climbing-mobile-game">
     <meta property="og:type" content="website">
-    <style>
-        /* Stile per l'avviso di orientamento */
-        #orientationWarning {
-            display: none; /* Nascondi per default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            font-size: 2em;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
     <button id="retryButton" style="display: none;">Riprova</button> <!-- Retry Button -->
-    <div id="orientationWarning">Per favore, metti il dispositivo in modalità verticale</div> <!-- Avviso di orientamento -->
     <script src="main.js"></script>
 </body>
 </html>
