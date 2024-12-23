@@ -1,3 +1,21 @@
+// Funzione per controllare l'orientamento del dispositivo
+function checkOrientation() {
+    if (window.innerHeight > window.innerWidth) {
+        // Modalità verticale
+        document.getElementById('orientationWarning').style.display = 'none';
+    } else {
+        // Modalità orizzontale
+        document.getElementById('orientationWarning').style.display = 'flex';
+    }
+}
+
+// Event listener per rilevare i cambiamenti nell'orientamento
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', checkOrientation);
+
+// Chiamata iniziale per controllare l'orientamento
+checkOrientation();
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
