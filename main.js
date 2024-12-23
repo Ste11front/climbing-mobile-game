@@ -96,12 +96,18 @@ function drawBackground() {
 }
 
 function drawClimber() {
+    ctx.save(); // Salva lo stato del contesto grafico
     const adjustedClimberImg = adjustImageBrightnessContrast(climberImg);
     if (climber.hitEffect) {
         ctx.globalAlpha = 0.5;
     }
+    ctx.shadowColor = 'black'; // Colore dell'ombra 
+    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
+    ctx.shadowOffsetY = 2; // Offset ombra verticale 
+    ctx.shadowBlur = 4; // Sfocatura dell'ombra
     ctx.drawImage(adjustedClimberImg, climber.x, climber.y, climber.width, climber.height);
     ctx.globalAlpha = 1.0;
+    ctx.restore(); // Ripristina lo stato del contesto grafico
 }
 
 function createHand() {
@@ -125,22 +131,39 @@ function createRock() {
 }
 
 function drawHands() {
+    ctx.save(); // Salva lo stato del contesto grafico 
+    ctx.shadowColor = 'black'; // Colore dell'ombra 
+    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
+    ctx.shadowOffsetY = 2; // Offset ombra verticale 
+    ctx.shadowBlur = 4; // Sfocatura dell'ombra
     hands.forEach(hand => {
         ctx.drawImage(handImg, hand.x - hand.radius, hand.y - hand.radius, hand.radius * 2, hand.radius * 2);
     });
+    ctx.restore(); // Ripristina lo stato del contesto grafico
 }
 
 function drawRocks() {
+    ctx.save(); // Salva lo stato del contesto grafico
+    ctx.shadowColor = 'black'; // Colore dell'ombra 
+    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
+    ctx.shadowOffsetY = 2; // Offset ombra verticale 
+    ctx.shadowBlur = 4; // Sfocatura dell'ombra
     rocks.forEach(rock => {
         ctx.drawImage(rockImg, rock.x, rock.y, rock.width, rock.height);
         rock.y += 2; // Velocità di caduta delle rocce
     });
+    ctx.restore(); // Ripristina lo stato del contesto grafico
 }
 
 function drawArrows() {
+    ctx.save(); // Salva lo stato del contesto grafico
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'wheat';
+    ctx.fillStyle = 'gold';
+    ctx.shadowColor = 'black'; // Colore dell'ombra
+    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
+    ctx.shadowOffsetY = 2; // Offset ombra verticale
+    ctx.shadowBlur = 4; // Sfocatura dell'ombra
     
     const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
@@ -153,6 +176,7 @@ function drawArrows() {
     if (climber.position !== 'center') {
         ctx.fillText(centerDot, canvas.width / 2 - 20, arrowY);
     }
+    ctx.restore(); // Ripristina lo stato del contesto grafico
 }
 
 function updateGame() {
@@ -214,20 +238,38 @@ function updateGame() {
 }
 
 function drawLives() {
+    ctx.save(); // Salva lo stato del contesto grafico 
+    ctx.shadowColor = 'black'; // Colore dell'ombra 
+    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
+    ctx.shadowOffsetY = 2; // Offset ombra verticale 
+    ctx.shadowBlur = 4; // Sfocatura dell'ombra
     for (let i = 0; i < climber.lives; i++) {
         ctx.drawImage(lifeImg, 20 + i * 30, 10, 20, 20);
     }
+    ctx.restore(); // Ripristina lo stato del contesto grafico
 }
 
 function drawMeters() {
-    ctx.fillStyle = 'wheat';
+    ctx.save(); // Salva lo stato del contesto grafico
+    ctx.fillStyle = 'gold';
     ctx.font = 'bold 20px Arial';
     ctx.shadowColor = 'black'; // Colore dell'ombra
     ctx.shadowOffsetX = 2; // Offset ombra orizzontale
     ctx.shadowOffsetY = 2; // Offset ombra verticale
     ctx.shadowBlur = 4; // Sfocatura dell'ombra
-    ctx.fillText(`Metri: ${meters}`, canvas.width - 100, 30);
+
+    // Calcola la lunghezza del testo 
+    const text = `Metri: ${meters}`; 
+    const textWidth = ctx.measureText(text).width;
+
+    // Calcola la posizione x basata sul numero di cifre
+    const extraSpace = 10 * (text.length - 7); // "Metri: " è fisso e ha 7 caratteri
+    let xPosition = canvas.width - 70 - extraSpace; // Distanza dal bordo destro
+
+    ctx.fillText(text, xPosition, 30); // Distanza dal bordo superiore
+    ctx.restore(); // Ripristina lo stato del contesto grafico
 }
+
 
 canvas.addEventListener('touchstart', function(event) {
     const touch = event.touches[0];
