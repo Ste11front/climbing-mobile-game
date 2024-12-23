@@ -33,10 +33,9 @@ button {
 
 button:focus {
     outline: none;
-    box-shadow: none; /* Rimuove l'ombra quando il pulsante ha il focus */
 }
 
 button:active {
     transform: translate(-50%, -50%) scale(1.05); /* Effetto attivo */
-    box-shadow: none; /* Rimuove l'ombra quando il pulsante è attivo */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
