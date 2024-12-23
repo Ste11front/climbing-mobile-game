@@ -190,7 +190,7 @@ function drawArrows() {
         ctx.fillText(rightArrow, canvas.width - 90, arrowY);
     }
     if (climber.position !== 'center') {
-        ctx.fillText(centerDot, canvas.width / 2 - 30, arrowY);
+        ctx.fillText(centerDot, canvas.width / 2 - 20, arrowY);
     }
     ctx.restore(); // Ripristina lo stato del contesto grafico
 }
