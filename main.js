@@ -140,7 +140,7 @@ function drawRocks() {
 function drawArrows() {
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
-    ctx.fillStyle = 'gold';
+    ctx.fillStyle = 'wheat';
     
     const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
@@ -220,8 +220,12 @@ function drawLives() {
 }
 
 function drawMeters() {
-    ctx.fillStyle = 'gold';
-    ctx.font = '20px Arial';
+    ctx.fillStyle = 'wheat';
+    ctx.font = 'bold 20px Arial';
+    ctx.shadowColor = 'black'; // Colore dell'ombra
+    ctx.shadowOffsetX = 2; // Offset ombra orizzontale
+    ctx.shadowOffsetY = 2; // Offset ombra verticale
+    ctx.shadowBlur = 4; // Sfocatura dell'ombra
     ctx.fillText(`Metri: ${meters}`, canvas.width - 100, 30);
 }
 
