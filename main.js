@@ -12,7 +12,7 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();  // Chiamata iniziale per impostare la dimensione
 
 canvas.addEventListener('touchstart', function(event) {
-    event.preventDefault(); // Aggiungi questa riga per prevenire il comportamento di default del tocco
+    event.preventDefault(); // Previene il comportamento di default del tocco
     const touch = event.touches[0];
 });
 
@@ -31,14 +31,16 @@ let climber = {
     lives: 3,
     position: 'center',
     invincible: false,
-    hitEffect: false
+    hitEffect: false,
+    flipped: false // Proprietà per il ribaltamento
 };
+
 let hands = [];
 let rocks = [];
 let backgroundY = 0;
 let score = 0;
-let meters = 0; // Counter for meters
-let gamePaused = false; // Flag to check if the game is paused
+let meters = 0; // Contatore per i metri
+let gamePaused = false; // Contrassegna per verificare se il gioco è in pausa
 
 const backgroundImg = new Image();
 backgroundImg.src = 'https://image.thecrag.com/213x320/cb/ed/cbedef6d7a8f43a9e257755da80c24d5d44b74aa';
@@ -46,7 +48,7 @@ backgroundImg.src = 'https://image.thecrag.com/213x320/cb/ed/cbedef6d7a8f43a9e25
 const climberImg = new Image();
 climberImg.src = 'https://static.vecteezy.com/system/resources/thumbnails/026/990/676/small/one-single-line-drawing-of-young-active-man-climbing-on-cliff-mountain-holding-safety-rope-graphic-illustration-extreme-outdoor-sport-and-bouldering-concept-modern-continuous-line-draw-design-png.png';
 
-// Assicurati che l'immagine del climber sia caricata prima di iniziare il gioco
+// Assicura che l'immagine del climber sia caricata prima di iniziare il gioco
 climberImg.onload = function() {
     startGame();
 };
@@ -101,11 +103,12 @@ function drawClimber() {
     if (climber.hitEffect) {
         ctx.globalAlpha = 0.5;
     }
-    ctx.shadowColor = 'black'; // Colore dell'ombra 
-    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
-    ctx.shadowOffsetY = 2; // Offset ombra verticale 
-    ctx.shadowBlur = 4; // Sfocatura dell'ombra
-    ctx.drawImage(adjustedClimberImg, climber.x, climber.y, climber.width, climber.height);
+    if (climber.flipped) {
+        ctx.scale(-1, 1); // Ribalta l'immagine orizzontalmente
+        ctx.drawImage(adjustedClimberImg, -climber.x - climber.width, climber.y, climber.width, climber.height);
+    } else {
+        ctx.drawImage(adjustedClimberImg, climber.x, climber.y, climber.width, climber.height);
+    }
     ctx.globalAlpha = 1.0;
     ctx.restore(); // Ripristina lo stato del contesto grafico
 }
@@ -114,7 +117,8 @@ function createHand() {
     let radius = 20;
     let x = Math.random() * (canvas.width - 2 * radius) + radius;
     let y = Math.random() * (climber.y - 2 * radius) + radius;
-    hands.push({ x, y, radius, timestamp: Date.now() });
+    let flipped = hands.length > 0 ? !hands[hands.length - 1].flipped : false; // Ribalta rispetto alla mano precedente
+    hands.push({ x, y, radius, timestamp: Date.now(), hitEffect: false, flipped });
 }
 
 function createRock() {
@@ -132,12 +136,23 @@ function createRock() {
 
 function drawHands() {
     ctx.save(); // Salva lo stato del contesto grafico 
-    ctx.shadowColor = 'black'; // Colore dell'ombra 
-    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
-    ctx.shadowOffsetY = 2; // Offset ombra verticale 
-    ctx.shadowBlur = 4; // Sfocatura dell'ombra
+    ctx.shadowColor = 'black';
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.shadowBlur = 4;
     hands.forEach(hand => {
-        ctx.drawImage(handImg, hand.x - hand.radius, hand.y - hand.radius, hand.radius * 2, hand.radius * 2);
+        ctx.save();
+        if (hand.hitEffect) {
+            ctx.globalAlpha = 0.5; // Effetto di trasparenza
+        }
+        if (hand.flipped) {
+            ctx.scale(-1, 1); // Ribalta l'immagine orizzontalmente
+            ctx.drawImage(handImg, -hand.x - hand.radius, hand.y - hand.radius, hand.radius * 2, hand.radius * 2);
+        } else {
+            ctx.drawImage(handImg, hand.x - hand.radius, hand.y - hand.radius, hand.radius * 2, hand.radius * 2);
+        }
+        ctx.globalAlpha = 1.0;
+        ctx.restore();
     });
     ctx.restore(); // Ripristina lo stato del contesto grafico
 }
@@ -145,9 +160,9 @@ function drawHands() {
 function drawRocks() {
     ctx.save(); // Salva lo stato del contesto grafico
     ctx.shadowColor = 'black'; // Colore dell'ombra 
-    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
-    ctx.shadowOffsetY = 2; // Offset ombra verticale 
-    ctx.shadowBlur = 4; // Sfocatura dell'ombra
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.shadowBlur = 4;
     rocks.forEach(rock => {
         ctx.drawImage(rockImg, rock.x, rock.y, rock.width, rock.height);
         rock.y += 2; // Velocità di caduta delle rocce
@@ -160,10 +175,10 @@ function drawArrows() {
     const arrowSize = 50;  // Dimensione maggiore degli indicatori
     ctx.font = `${arrowSize}px Arial`;
     ctx.fillStyle = 'wheat';
-    ctx.shadowColor = 'black'; // Colore dell'ombra
-    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
-    ctx.shadowOffsetY = 2; // Offset ombra verticale
-    ctx.shadowBlur = 4; // Sfocatura dell'ombra
+    ctx.shadowColor = 'black';
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.shadowBlur = 4;
     
     const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
 
@@ -239,10 +254,10 @@ function updateGame() {
 
 function drawLives() {
     ctx.save(); // Salva lo stato del contesto grafico 
-    ctx.shadowColor = 'black'; // Colore dell'ombra 
-    ctx.shadowOffsetX = 2; // Offset ombra orizzontale 
-    ctx.shadowOffsetY = 2; // Offset ombra verticale 
-    ctx.shadowBlur = 4; // Sfocatura dell'ombra
+    ctx.shadowColor = 'black'; 
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.shadowBlur = 4;
     for (let i = 0; i < climber.lives; i++) {
         ctx.drawImage(lifeImg, 20 + i * 30, 10, 20, 20);
     }
@@ -253,10 +268,10 @@ function drawMeters() {
     ctx.save(); // Salva lo stato del contesto grafico
     ctx.fillStyle = 'wheat';
     ctx.font = 'bold 20px Arial';
-    ctx.shadowColor = 'black'; // Colore dell'ombra
-    ctx.shadowOffsetX = 2; // Offset ombra orizzontale
-    ctx.shadowOffsetY = 2; // Offset ombra verticale
-    ctx.shadowBlur = 4; // Sfocatura dell'ombra
+    ctx.shadowColor = 'black';
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.shadowBlur = 4;
 
     // Calcola la lunghezza del testo 
     const text = `Metri: ${meters}`; 
@@ -279,25 +294,31 @@ canvas.addEventListener('touchstart', function(event) {
             if (touch.clientX < canvas.width / 3) {
                 climber.position = 'left';
                 climber.x = canvas.width / 6 - climber.width / 2;
+                climber.flipped = true; // Ribalta quando va a sinistra
             } else if (touch.clientX > 2 * canvas.width / 3) {
                 climber.position = 'right';
                 climber.x = 5 * canvas.width / 6 - climber.width / 2;
+                climber.flipped = false; // Non ribalta quando va a destra
             }
         } else if (climber.position === 'left') {
             if (touch.clientX > 2 * canvas.width / 3) {
                 climber.position = 'center';
                 climber.x = canvas.width / 2 - climber.width / 2;
+                climber.flipped = false; // Non ribalta quando torna al centro
             } else if (touch.clientX >= canvas.width / 3 && touch.clientX <= 2 * canvas.width / 3) {
                 climber.position = 'center';
                 climber.x = canvas.width / 2 - climber.width / 2;
+                climber.flipped = false; // Non ribalta quando torna al centro
             }
         } else if (climber.position === 'right') {
             if (touch.clientX < canvas.width / 3) {
                 climber.position = 'center';
                 climber.x = canvas.width / 2 - climber.width / 2;
+                climber.flipped = true; // Ribalta quando va a sinistra
             } else if (touch.clientX >= canvas.width / 3 && touch.clientX <= 2 * canvas.width / 3) {
                 climber.position = 'center';
                 climber.x = canvas.width / 2 - climber.width / 2;
+                climber.flipped = true; // Ribalta quando va a sinistra
             }
         }
     }
@@ -308,7 +329,11 @@ canvas.addEventListener('touchstart', function(event) {
             touch.clientY - touchYOffset >= hand.y - hand.radius && touch.clientY - touchYOffset <= hand.y + hand.radius) {
             backgroundY += 10;
             meters += 1;
-            hands.splice(index, 1);
+            hand.hitEffect = true;
+            climber.flipped = !climber.flipped; // Ribalta il personaggio quando tocca una mano
+            setTimeout(() => {
+                hands.splice(index, 1);
+            }, 250); // Rimuove la mano dopo 1/4 di secondo
         }
     });
 });
@@ -331,7 +356,7 @@ function gameLoop() {
         drawRocks();
         drawLives();
         drawMeters();
-        drawArrows(); // Disegna le frecce
+        drawArrows();
         updateGame();
     }
     requestAnimationFrame(gameLoop);
