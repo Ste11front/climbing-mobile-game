@@ -14,22 +14,6 @@ canvas {
     height: 100vh; /* Adattamento reattivo */
 }
 
-body {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #000;
-    overflow: hidden; /* Impedisce lo scrolling */
-}
-
-canvas {
-    border: 1px solid #fff;
-    width: 100vw; /* Adattamento reattivo */
-    height: 100vh; /* Adattamento reattivo */
-}
-
 button {
     position: absolute;
     top: 50%;
