@@ -78,7 +78,7 @@ const centerDot = '•';
 const retryButton = document.getElementById('retryButton');
 
 // Funzione per regolare la luminosità e il contrasto di un'immagine
-function adjustImageBrightnessContrast(image, brightness = 1, contrast = 2) {
+function adjustImageBrightnessContrast(image, brightness = 1, contrast = 3) {
     const offScreenCanvas = document.createElement('canvas');
     const offScreenCtx = offScreenCanvas.getContext('2d');
     offScreenCanvas.width = image.width;
