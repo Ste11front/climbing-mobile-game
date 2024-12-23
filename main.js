@@ -25,11 +25,11 @@ function vibrate(duration) {
 
 let climber = {
     x: canvas.width / 2 - 25,
-    y: canvas.height - canvas.height / 4,
+    y: canvas.height - canvas.height / 3,
     width: 60,
     height: 60,
     speed: 3,
-    lives: 4,
+    lives: 3,
     position: 'center',
     invincible: false,
     hitEffect: false,
