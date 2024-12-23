@@ -14,19 +14,44 @@ canvas {
     height: 100vh; /* Adattamento reattivo */
 }
 
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    overflow: hidden; /* Impedisce lo scrolling */
+}
+
+canvas {
+    border: 1px solid #fff;
+    width: 100vw; /* Adattamento reattivo */
+    height: 100vh; /* Adattamento reattivo */
+}
+
 button {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 2vh 4vw; /* Adattamento reattivo */
-    font-size: 3vh; /* Adattamento reattivo */
-    background-color: #f00;
+    padding: 2vh 4vw;
+    font-size: 3vh;
+    font-weight: bold;
+    background-color: #ff6347; /* Colore rosso arancio */
     color: #fff;
     border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s; /* Animazione */
 }
 
 button:focus {
     outline: none;
+}
+
+button:active {
+    transform: translate(-50%, -50%) scale(1.05); /* Effetto attivo */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }

@@ -33,7 +33,7 @@ let climber = {
     invincible: false,
     hitEffect: false
 };
-let circles = [];
+let hands = [];
 let rocks = [];
 let backgroundY = 0;
 let score = 0;
@@ -52,10 +52,10 @@ climberImg.onload = function() {
 };
 
 function startGame() {
-    createCircle();
+    createHand();
     createRock();
     gameLoop();
-    setInterval(createCircle, 1000); // Crea un nuovo cerchio ogni secondo
+    setInterval(createHand, 1000); // Crea un nuovo cerchio ogni secondo
     setInterval(createRock, 3000); // Crea una nuova roccia ogni 3 secondi
 }
 
@@ -65,8 +65,8 @@ rockImg.src = 'https://pngimg.com/d/stone_PNG13588.png';
 const lifeImg = new Image();
 lifeImg.src = 'https://i.pinimg.com/originals/d7/12/f5/d712f5d82e60ffaed78e8015dd75787c.png';
 
-const circleImg = new Image();
-circleImg.src = 'https://cdn-icons-png.flaticon.com/512/2717/2717414.png';
+const handImg = new Image();
+handImg.src = 'https://cdn-icons-png.flaticon.com/512/2717/2717414.png';
 
 const leftArrow = '←';
 const rightArrow = '→';
@@ -104,11 +104,11 @@ function drawClimber() {
     ctx.globalAlpha = 1.0;
 }
 
-function createCircle() {
+function createHand() {
     let radius = 20;
     let x = Math.random() * (canvas.width - 2 * radius) + radius;
     let y = Math.random() * (climber.y - 2 * radius) + radius;
-    circles.push({ x, y, radius, timestamp: Date.now() });
+    hands.push({ x, y, radius, timestamp: Date.now() });
 }
 
 function createRock() {
@@ -124,9 +124,9 @@ function createRock() {
     rocks.push({ x, y, width, height });
 }
 
-function drawCircles() {
-    circles.forEach(circle => {
-        ctx.drawImage(circleImg, circle.x - circle.radius, circle.y - circle.radius, circle.radius * 2, circle.radius * 2);
+function drawHands() {
+    hands.forEach(hand => {
+        ctx.drawImage(handImg, hand.x - hand.radius, hand.y - hand.radius, hand.radius * 2, hand.radius * 2);
     });
 }
 
@@ -160,11 +160,11 @@ function updateGame() {
 
     const now = Date.now();
 
-    circles = circles.filter(circle => {
-        if (now - circle.timestamp > 3000) return false;
+    hands = hands.filter(hand => {
+        if (now - hand.timestamp > 3000) return false;
 
-        if (circle.y + circle.radius >= climber.y && circle.y - circle.radius <= climber.y + climber.height &&
-            circle.x + circle.radius >= climber.x && circle.x - circle.radius <= climber.x + climber.width) {
+        if (hand.y + hand.radius >= climber.y && hand.y - hand.radius <= climber.y + climber.height &&
+            hand.x + hand.radius >= climber.x && hand.x - hand.radius <= climber.x + climber.width) {
             score += 10;
             meters += 1;
             backgroundY += 10;
@@ -256,13 +256,13 @@ canvas.addEventListener('touchstart', function(event) {
         }
     }
 
-    circles.forEach((circle, index) => {
+    hands.forEach((hand, index) => {
         let touchYOffset = 30;
-        if (touch.clientX >= circle.x - circle.radius && touch.clientX <= circle.x + circle.radius &&
-            touch.clientY - touchYOffset >= circle.y - circle.radius && touch.clientY - touchYOffset <= circle.y + circle.radius) {
+        if (touch.clientX >= hand.x - hand.radius && touch.clientX <= hand.x + hand.radius &&
+            touch.clientY - touchYOffset >= hand.y - hand.radius && touch.clientY - touchYOffset <= hand.y + hand.radius) {
             backgroundY += 10;
             meters += 1;
-            circles.splice(index, 1);
+            hands.splice(index, 1);
         }
     });
 });
@@ -281,7 +281,7 @@ function gameLoop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         drawClimber();
-        drawCircles();
+        drawHands();
         drawRocks();
         drawLives();
         drawMeters();
