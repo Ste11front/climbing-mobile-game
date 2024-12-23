@@ -181,7 +181,7 @@ function drawArrows() {
     ctx.shadowOffsetY = 2;
     ctx.shadowBlur = 4;
     
-    const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
+    const arrowY = climber.y + climber.height + 75; // Posizione verticale dei simboli
 
     if (climber.position !== 'left') {
         ctx.fillText(leftArrow, 40, arrowY);
