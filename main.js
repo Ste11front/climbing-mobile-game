@@ -8,6 +8,7 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
     // Eventuali aggiustamenti necessari al ridimensionamento degli elementi di gioco
 }
+
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();  // Chiamata iniziale per impostare la dimensione
 
@@ -24,9 +25,9 @@ function vibrate(duration) {
 
 let climber = {
     x: canvas.width / 2 - 25,
-    y: canvas.height - canvas.height / 4,
-    width: 50,
-    height: 50,
+    y: canvas.height - canvas.height / 3,
+    width: 70,
+    height: 60,
     speed: 3,
     lives: 3,
     position: 'center',
@@ -180,7 +181,7 @@ function drawArrows() {
     ctx.shadowOffsetY = 2;
     ctx.shadowBlur = 4;
     
-    const arrowY = climber.y + climber.height + 50; // Posizione verticale dei simboli
+    const arrowY = climber.y + climber.height + 100; // Posizione verticale dei simboli
 
     if (climber.position !== 'left') {
         ctx.fillText(leftArrow, 40, arrowY);
@@ -289,7 +290,8 @@ function drawMeters() {
 canvas.addEventListener('touchstart', function(event) {
     const touch = event.touches[0];
 
-    if (touch.clientY >= climber.y) {
+    // Controlla se il tocco è avvenuto nella parte inferiore del personaggio
+    if (touch.clientY > climber.y + climber.height) {
         if (climber.position === 'center') {
             if (touch.clientX < canvas.width / 3) {
                 climber.position = 'left';
